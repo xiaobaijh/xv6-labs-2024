@@ -91,3 +91,18 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+// Set syscall_trace to current proc.
+uint64
+sys_trace(void)
+{
+  int syscall_trace;
+  argint(0, &syscall_trace);
+  if (syscall_trace <= 0) {
+    return -1;
+  }
+  struct proc *p = myproc();
+  p->syscall_trace = (uint32)syscall_trace;
+  printf("%d: syscall trace -> %d\n", p->pid,0);
+  return 0;
+}

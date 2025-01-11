@@ -299,6 +299,9 @@ fork(void)
   // copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
 
+  // copy syscall_trace bitmap.
+  np->syscall_trace = p->syscall_trace;
+
   // Cause fork to return 0 in the child.
   np->trapframe->a0 = 0;
 

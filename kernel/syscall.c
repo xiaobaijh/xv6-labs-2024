@@ -168,11 +168,11 @@ syscall(void)
   
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
 
-    // Fetch the arguments from the trapframe
-    uint64 args[6];  // 6 arguments for a system call
-    for(int i = 0; i < 6; i++) {
-      args[i] = argraw(i);
-    }
+    // // Fetch the arguments from the trapframe
+    // uint64 args[6];  // 6 arguments for a system call
+    // for(int i = 0; i < 6; i++) {
+    //   args[i] = argraw(i);
+    // }
     // Use num to lookup the system call function for num, call it,
     // and store its return value in p->trapframe->a0
     p->trapframe->a0 = syscalls[num]();

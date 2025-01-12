@@ -130,6 +130,7 @@ static uint64 (*syscalls[])(void) = {
 [SYS_trace]   sys_trace,
 };
 
+// An array of syscall names for tracing purposes
 char syscall_names[25][10] = {
     "fork",
     "chat",
@@ -152,7 +153,8 @@ char syscall_names[25][10] = {
     "link", 
     "mkdir", 
     "close", 
-    "trace"};
+    "trace",
+};
   
 void
 syscall(void)
@@ -165,6 +167,12 @@ syscall(void)
   syscall_trace = p->syscall_trace;
   
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
+
+    // Fetch the arguments from the trapframe
+    uint64 args[6];  // 6 arguments for a system call
+    for(int i = 0; i < 6; i++) {
+      args[i] = argraw(i);
+    }
     // Use num to lookup the system call function for num, call it,
     // and store its return value in p->trapframe->a0
     p->trapframe->a0 = syscalls[num]();
